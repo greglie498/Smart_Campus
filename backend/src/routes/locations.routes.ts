@@ -3,15 +3,17 @@ import { getAllLocations, getLocationBySlug } from "../services/locations.servic
 
 export const locationsRouter = Router();
 
-locationsRouter.get("/", (_req, res) => {
-  res.json(getAllLocations());
+locationsRouter.get("/", async (_req, res) => {
+  const locations = await getAllLocations();
+  res.json(locations);
 });
 
-locationsRouter.get("/:slug", (req, res) => {
-  const location = getLocationBySlug(req.params.slug);
+locationsRouter.get("/:slug", async (req, res) => {
+  const location = await getLocationBySlug(req.params.slug);
 
   if (!location) {
-    return res.status(404).json({ error: `Location "${req.params.slug}" not found` });
+    return res.status(404).json({ 
+      error: `Location "${req.params.slug}" not found` });
   }
 
   res.json(location);

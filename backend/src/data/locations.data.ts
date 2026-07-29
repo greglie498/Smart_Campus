@@ -22,6 +22,8 @@ export const locations: Location[] = [
       "Group study areas",
     ],
     nearby: ["Student centre", "Main Cafeteria", "Academic buildings"],
+    latitude:0,
+    longitude:0,
   },
   {
     slug: "auditorium",
@@ -44,6 +46,8 @@ export const locations: Location[] = [
       "Ceremony and assembly venue",
     ],
     nearby: ["Administration offices", "Academic buildings", "Campus gardens"],
+    latitude:0,
+    longitude:0,
   },
   {
     slug: "freida-brown",
@@ -66,6 +70,8 @@ export const locations: Location[] = [
       "Scheduled programme facilities",
     ],
     nearby: ["Student services", "Campus dining", "Main campus courtyard"],
+   latitude:0,
+   longitude:0,
   },
   {
     slug: "athletic-facilities",
@@ -88,5 +94,7 @@ export const locations: Location[] = [
       "Recreation and wellness programmes",
     ],
     nearby: ["Student centre", "Campus residences", "Outdoor campus paths"],
+    latitude:0,
+    longitude:0,
   },
 ];

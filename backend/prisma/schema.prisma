@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Building {
+  id            Int      @id @default(autoincrement())
+
+  slug          String   @unique
+  name          String
+
+  image         String
+  tagline       String
+  intro         String
+
+  location      String
+  hours         String
+  accessibility String
+  details       String
+
+  latitude      Float
+  longitude     Float
+
+  features      String[]
+  nearby        String[]
+
+  createdAt     DateTime @default(now())
+
+  favorites     Favorite[]
+}
+
+model Favorite {
+  id         Int      @id @default(autoincrement())
+  buildingId Int
+  building   Building @relation(fields: [buildingId], references: [id])
+  deviceId   String
+  createdAt  DateTime @default(now())
+
+  @@unique([buildingId, deviceId])
+}

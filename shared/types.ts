@@ -29,6 +29,10 @@ export interface Location extends CampusEntity {
   details: string;
   features: string[];
   nearby: string[];
+
+  latitude:number;
+  longitude:number;
+
 }
 
 /** The category a search result belongs to — used to route to the right detail page. */

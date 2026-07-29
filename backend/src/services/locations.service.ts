@@ -1,11 +1,11 @@
-import { Location } from "@shared/types";
-import { locations } from "../data/locations.data";
-import { findBySlug } from "../data/lookup.util";
+import {prisma} from "../lib/prisma";
 
-export function getAllLocations(): Location[] {
-  return locations;
+export function getAllLocations() {
+  return prisma.building.findMany();
 }
 
-export function getLocationBySlug(slug: string): Location | undefined {
-  return findBySlug(locations, slug);
+export function getLocationBySlug(slug: string) {
+  return prisma.building.findUnique({
+    where:{slug},
+  });
 }
