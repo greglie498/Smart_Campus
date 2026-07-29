@@ -1,113 +1,47 @@
 import {
-  ArrowRight,
   Mail,
   MapPin,
   Phone,
 } from "lucide-react";
-import { Link, Navigate, useParams } from "react-router-dom";
-
-const schools = {
-  "chandaria-business": {
-    name: "Chandaria School of Business",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2F85bb8bbd123d4f5ba87b5acc71ed92bc?format=webp&width=800&height=1200",
-    intro:
-      "Explore business education, entrepreneurship, leadership, and innovation in a community built for ambitious thinkers and responsible leaders.",
-    location: "Chandaria School of Business, USIU-Africa campus",
-    departments: [
-      "Accounting, Finance and Economics",
-      "Business Administration",
-      "Entrepreneurship and Innovation",
-      "Leadership and Management",
-    ],
-    facilities: ["Business simulation spaces", "Collaborative study areas", "Library and research support"],
-  },
-  "science-technology": {
-    name: "School of Science and Technology",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2F940cafc04dc94d948ac2ee8e006dc827?format=webp&width=800&height=1200",
-    intro:
-      "Discover programs and spaces dedicated to scientific inquiry, technology, computing, and future-focused problem solving.",
-    location: "School of Science and Technology, USIU-Africa campus",
-    departments: [
-      "Computer Science",
-      "Information Systems and Technology",
-      "Data Science and Analytics",
-      "Applied Sciences",
-    ],
-    facilities: ["Technology laboratories", "Innovation and maker spaces", "Digital research resources"],
-  },
-  "humanities-social-sciences": {
-    name: "School of Humanities and Social Sciences",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2F4e14603c6e7b436ebd814476c1e3c882?format=webp&width=800&height=1200",
-    intro:
-      "Engage with the ideas, cultures, and social systems that shape communities through a broad humanities and social sciences education.",
-    location: "School of Humanities and Social Sciences, USIU-Africa campus",
-    departments: [
-      "International Relations",
-      "Psychology",
-      "Development Studies",
-      "Languages and Communication",
-    ],
-    facilities: ["Lecture theatres", "Student discussion lounges", "Library and archive access"],
-  },
-  "communication-cinematic-creative-arts": {
-    name: "School of Communication, Cinematic and Creative Arts",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Fdea4a74a6c38465f832f39e3e097996f?format=webp&width=800&height=1200",
-    intro:
-      "Find creative spaces for communication, storytelling, film, design, and the visual and performing arts.",
-    location: "School of Communication, Cinematic and Creative Arts, USIU-Africa campus",
-    departments: [
-      "Film and Theatre Arts",
-      "Journalism and Media Studies",
-      "Advertising and Public Relations",
-      "Creative Arts and Design",
-    ],
-    facilities: ["Production studios", "Editing and recording suites", "Creative collaboration spaces"],
-  },
-  "pharmacy-health-sciences": {
-    name: "School of Pharmacy and Health Sciences",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Fdf8409d54a4f4d17bbd91cbe18f979b3?format=webp&width=800&height=1200",
-    intro:
-      "Learn about health-focused education, pharmacy, research, and the facilities supporting tomorrow's healthcare professionals.",
-    location: "School of Pharmacy and Health Sciences, USIU-Africa campus",
-    departments: [
-      "Pharmacy",
-      "Public Health",
-      "Health Systems and Management",
-      "Biomedical and Health Sciences",
-    ],
-    facilities: ["Teaching laboratories", "Health sciences resource centre", "Student wellness services"],
-  },
-  "graduate-studies": {
-    name: "School of Graduate Studies",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Feeb25739568c4d19a6f6b57cdd5ddc72?format=webp&width=800&height=1200",
-    intro:
-      "Explore advanced study, research opportunities, and postgraduate pathways across the university.",
-    location: "School of Graduate Studies, USIU-Africa campus",
-    departments: [
-      "Graduate Business Programs",
-      "Graduate Computing Programs",
-      "Graduate Social Sciences",
-      "Research and Doctoral Studies",
-    ],
-    facilities: ["Graduate study rooms", "Research consultation spaces", "Postgraduate student services"],
-  },
-} as const;
+import { Link, useParams } from "react-router-dom";
+import { useSchool } from "@/hooks/use-campus-data";
+import { Skeleton } from "@/components/ui/skeleton";
+import NotFound from "./NotFound";
+import DirectionsPanel from "@/components/DirectionsPanel";
+import FavouriteButton from "@/components/FavouriteButton";
 
 export default function SchoolDetails() {
-  const { slug } = useParams<{ slug: keyof typeof schools }>();
-  const school = slug ? schools[slug] : undefined;
+  const { slug } = useParams<{ slug: string }>();
+  const { data: school, isLoading, isError } = useSchool(slug);
 
-  if (!school) {
-    return <Navigate to="/" replace />;
+
+ if (isLoading) {
+  return (
+    <main className="min-h-screen bg-white" aria-live="polite" aria-busy="true">
+      <span className="sr-only">Loading school details…</span>
+      <div className="h-6 bg-black" />
+      <Skeleton className="h-[420px] w-full rounded-none sm:h-[560px]" />
+      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+        <Skeleton className="h-10 w-2/3" />
+        <Skeleton className="mt-4 h-6 w-1/2" />
+        <div className="mt-16 grid gap-8 md:grid-cols-2">
+          <Skeleton className="h-40 w-full" />
+          <Skeleton className="h-40 w-full" />
+        </div>
+      </div>
+    </main>
+  );
+}
+
+  if (isError || !school) {
+   return <NotFound message="We couldn't find that school." />;
   }
 
   return (
+  <>
+    <a href="#main-content" className="skip-link">
+      Skip to main content
+    </a>
     <main
       className="min-h-screen bg-white text-black"
       style={{ fontFamily: '"Times New Roman", serif' }}
@@ -149,18 +83,12 @@ export default function SchoolDetails() {
         <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <p className="max-w-3xl text-3xl leading-tight">{school.intro}</p>
-            <Link
-              to="/"
-              className="group mt-10 inline-flex items-center gap-4 text-xl font-semibold"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white">
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <span className="relative">
-                Navigate Here
-                <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-black transition-transform duration-300 group-hover:scale-x-100" />
-              </span>
-            </Link>
+            <div className="mt-10 flex items-start gap-4">
+              <DirectionsPanel category="school" slug={school.slug} />
+              <FavouriteButton
+                item={{ slug: school.slug, name: school.name, category: "school", path: `/schools/${school.slug}` }}
+            />
+          </div>
           </div>
           <div className="border-t border-black pt-8">
             <p className="mb-4 text-sm uppercase tracking-[0.2em] text-black/60">
@@ -224,5 +152,6 @@ export default function SchoolDetails() {
         </section>
       </section>
     </main>
+  </>
   );
 }

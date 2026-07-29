@@ -35,6 +35,12 @@ export interface Location extends CampusEntity {
 
 }
 
+export interface Directions {
+  destinationName: string;
+  steps: string[];
+  estimatedMinutes: number;
+}
+
 /** The category a search result belongs to — used to route to the right detail page. */
 export type SearchResultCategory = "school" | "cafeteria" | "location";
 

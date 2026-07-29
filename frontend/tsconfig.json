@@ -22,8 +22,6 @@
     "noImplicitAny": false,
     "noFallthroughCasesInSwitch": false,
     "strictNullChecks": false,
-
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["../shared/*"]

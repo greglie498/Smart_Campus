@@ -6,6 +6,7 @@ import { schoolsRouter } from "./routes/schools.routes";
 import { cafeteriasRouter } from "./routes/cafeterias.routes";
 import { locationsRouter } from "./routes/locations.routes";
 import { searchRouter } from "./routes/search.routes";
+import { directionsRouter } from "./routes/directions.routes";
 
 
 export function createApp() {
@@ -23,6 +24,7 @@ export function createApp() {
   app.use("/api/cafeterias", cafeteriasRouter);
   app.use("/api/locations", locationsRouter);
   app.use("/api/search", searchRouter);
+  app.use("/api/directions", directionsRouter);
   app.use("/api", (_req, res) => {
     res.status(404).json({ error: "API endpoint not found" });
   });

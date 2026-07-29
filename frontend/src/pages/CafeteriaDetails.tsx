@@ -1,61 +1,43 @@
-import { ArrowRight, Clock3, Mail, MapPin, Phone } from "lucide-react";
-import { Link, Navigate, useParams } from "react-router-dom";
-
-const cafeteriaHeroImage =
-  "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2F5fe5f33bd7324150b37ef1c428613784?format=webp&width=800&height=1200";
-
-const cafeterias = {
-  "usiu-main-cafeteria": {
-    name: "USIU Cafeteria (Main Cafeteria)",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Fa6b4d3b8d20348d7a2bcfab222b5bfc6?format=webp&width=800&height=1200",
-    description:
-      "A central campus dining destination serving students, faculty, staff, and visitors throughout the academic day.",
-    location: "Main Cafeteria, USIU-Africa campus",
-    hours: "Monday-Friday, 7:30 AM-6:00 PM",
-    facilities: ["Main campus courtyard", "Student centre", "Campus convenience services"],
-  },
-  sironi: {
-    name: "Sironi",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Fd3c2d2cd4db944dbb11344ddf9ec6a84?format=webp&width=800&height=1200",
-    description:
-      "A welcoming dining space for relaxed meals, coffee breaks, and informal conversations between classes.",
-    location: "Sironi, USIU-Africa campus",
-    hours: "Monday-Friday, 8:00 AM-5:00 PM",
-    facilities: ["Library", "Student study areas", "Outdoor campus paths"],
-  },
-  "pauls-caffe": {
-    name: "Paul's Caffe",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Ff351240502a44440b291f69cfbc8e753?format=webp&width=800&height=1200",
-    description:
-      "A convenient café stop for refreshments, quick meals, and casual meetings on campus.",
-    location: "Paul's Caffe, USIU-Africa campus",
-    hours: "Monday-Friday, 8:00 AM-5:00 PM",
-    facilities: ["Academic buildings", "Collaborative spaces", "Campus shuttle access"],
-  },
-  "caffe-latta": {
-    name: "Caffe Latta",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Fa4217872839a435c86435d61186531ea?format=webp&width=800&height=1200",
-    description:
-      "A relaxed café setting for coffee, light meals, and a quiet pause during the university day.",
-    location: "Caffe Latta, USIU-Africa campus",
-    hours: "Monday-Friday, 8:00 AM-5:00 PM",
-    facilities: ["Lecture halls", "Campus gardens", "Student services"],
-  },
-} as const;
+import { Clock3, Mail, MapPin, Phone } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import { useCafeteria } from "@/hooks/use-campus-data";
+import { Skeleton } from "@/components/ui/skeleton";
+import NotFound from "./NotFound";
+import DirectionsPanel from "@/components/DirectionsPanel";
+import FavouriteButton from "@/components/FavouriteButton";
 
 export default function CafeteriaDetails() {
-  const { slug } = useParams<{ slug: keyof typeof cafeterias }>();
-  const cafeteria = slug ? cafeterias[slug] : undefined;
+  const { slug } = useParams<{ slug: string }>();
+  const { data: cafeteria, isLoading, isError } = useCafeteria(slug);
 
-  if (!cafeteria) {
-    return <Navigate to="/" replace />;
+  if (isLoading) {
+  return (
+    <main className="min-h-screen bg-white" aria-live="polite" aria-busy="true">
+      <span className="sr-only">Loading cafeteria details…</span>
+      <div className="h-6 bg-black" />
+      <Skeleton className="h-[420px] w-full rounded-none sm:h-[560px]" />
+      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+        <Skeleton className="h-10 w-2/3" />
+        <Skeleton className="mt-4 h-6 w-1/2" />
+        <div className="mt-16 grid gap-8 md:grid-cols-3">
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+      </div>
+    </main>
+  );
+}
+
+  if (isError || !cafeteria) {
+    return <NotFound message="We couldn't find that cafeteria." />;
   }
 
   return (
+  <>
+    <a href="#main-content" className="skip-link">
+      Skip to main content
+    </a>
     <main
       className="min-h-screen bg-white text-black"
       style={{ fontFamily: '"Times New Roman", serif' }}
@@ -76,7 +58,7 @@ export default function CafeteriaDetails() {
 
       <section className="relative isolate min-h-[560px] overflow-hidden bg-black text-white">
         <img
-          src={"image" in cafeteria ? cafeteria.image : cafeteriaHeroImage}
+          src={cafeteria.image}
           alt={`${cafeteria.name} campus location`}
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -99,19 +81,15 @@ export default function CafeteriaDetails() {
             <p className="max-w-3xl text-3xl leading-tight">
               {cafeteria.description}
             </p>
-            <Link
-              to="/"
-              className="group mt-10 inline-flex items-center gap-4 text-xl font-semibold"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white">
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <span className="relative">
-                Navigate Here
-                <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-black transition-transform duration-300 group-hover:scale-x-100" />
-              </span>
-            </Link>
+            <div>
+              <div className="mt-10 flex items-start gap-4">
+                <DirectionsPanel category="cafeteria" slug={cafeteria.slug} />
+                <FavouriteButton
+                  item={{ slug: cafeteria.slug, name: cafeteria.name, category: "cafeteria", path: `/cafeteria/${cafeteria.slug}` }}
+              />
+            </div>
           </div>
+        </div>
           <div className="border-t border-black pt-8">
             <p className="mb-4 text-sm uppercase tracking-[0.2em] text-black/60">
               Location and hours
@@ -167,5 +145,6 @@ export default function CafeteriaDetails() {
         </section>
       </section>
     </main>
+  </>
   );
 }

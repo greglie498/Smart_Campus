@@ -1,81 +1,42 @@
-import { ArrowRight, Clock3, Mail, MapPin, Phone } from "lucide-react";
+import { Clock3, Mail, MapPin, Phone } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
+import { useCampusLocation } from "@/hooks/use-campus-data";
+import { Skeleton } from "@/components/ui/skeleton";
+import DirectionsPanel from "@/components/DirectionsPanel";
+import FavouriteButton from "@/components/FavouriteButton";
 
-const locations = {
-  library: {
-    name: "Library",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2F4f9db425b2174e0b85596862d95169fa?format=webp&width=800&height=1200",
-    tagline: "A welcoming space for study, discovery, and research.",
-    intro:
-      "The USIU-Africa Library supports learning, teaching, and research with quiet study environments, expert guidance, and resources for the university community.",
-    location: "USIU-Africa Library, main campus",
-    hours: "Monday-Friday, 8:00 AM-10:00 PM; Saturday, 9:00 AM-5:00 PM",
-    accessibility: "Step-free access, accessible study spaces, and assistance available at the service desk.",
-    details: "Borrowing, reference, research support, and group study services are available.",
-    features: ["Individual study spaces", "Digital resources and databases", "Research support and reference services", "Group study areas"],
-    nearby: ["Student centre", "Main Cafeteria", "Academic buildings"],
-  },
-  auditorium: {
-    name: "Auditorium",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Fc4e9bfdd014847f48e74e145044e2e2a?format=webp&width=800&height=1200",
-    tagline: "A central venue for ideas, performances, and campus gatherings.",
-    intro:
-      "The USIU-Africa Auditorium brings the community together for lectures, conferences, performances, ceremonies, and other major university events.",
-    location: "Auditorium, USIU-Africa main campus",
-    hours: "Open during scheduled events and university programmes",
-    accessibility: "Accessible entrances, seating, and circulation routes are available for guests and event attendees.",
-    details: "Event coordination, presentation facilities, and audience seating support a range of campus programmes.",
-    features: ["Event and conference space", "Performance and presentation facilities", "Audience seating", "Ceremony and assembly venue"],
-    nearby: ["Administration offices", "Academic buildings", "Campus gardens"],
-  },
-  "freida-brown": {
-    name: "Freida Brown",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Ffc574ddad6a54b26a09124349e608506?format=webp&width=800&height=1200",
-    tagline: "A versatile campus facility for connection, collaboration, and community.",
-    intro:
-      "Freida Brown provides flexible spaces for university activities, meetings, services, and gatherings that support student life and the wider campus community.",
-    location: "Freida Brown building, USIU-Africa campus",
-    hours: "Monday-Friday, 8:00 AM-5:00 PM, with scheduled event access",
-    accessibility: "Accessible routes and support are available for visitors who need assistance navigating the facility.",
-    details: "The building hosts multipurpose spaces, organised programmes, and services for students, staff, and visitors.",
-    features: ["Multipurpose rooms", "Student and community services", "Meeting and collaboration spaces", "Scheduled programme facilities"],
-    nearby: ["Student services", "Campus dining", "Main campus courtyard"],
-  },
-  "athletic-facilities": {
-    name: "Athletic Facilities",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2Ffdc1be59479a44288f933a2a9b03cdfc?format=webp&width=800&height=1200",
-    tagline: "Spaces to train, compete, and stay active on campus.",
-    intro:
-      "USIU-Africa’s athletic facilities support fitness, recreation, team sports, and wellness activities for students and the university community.",
-    location: "Athletic Facilities, USIU-Africa campus",
-    hours: "Monday-Friday, 6:00 AM-8:00 PM; hours vary by activity and programme",
-    accessibility: "Accessible routes and facilities are available, with assistance provided through the campus information desk.",
-    details: "Use of courts, fitness areas, and organised activities may require scheduling or programme registration.",
-    features: ["Sports courts and fields", "Fitness and training areas", "Organised team activities", "Recreation and wellness programmes"],
-    nearby: ["Student centre", "Campus residences", "Outdoor campus paths"],
-  },
-} as const;
+export default function LocationDetails() {
+  const { slug } = useParams<{ slug: string }>();
+  const { data: location, isLoading, isError } = useCampusLocation(slug);
 
-type LocationSlug = keyof typeof locations;
+  if (isLoading) {
+  return (
+    <main className="min-h-screen bg-white" aria-live="polite" aria-busy="true">
+      <span className="sr-only">Loading location details…</span>
+      <div className="h-6 bg-black" />
+      <Skeleton className="h-[420px] w-full rounded-none sm:h-[560px]" />
+      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10">
+        <Skeleton className="h-10 w-2/3" />
+        <Skeleton className="mt-4 h-6 w-1/2" />
+        <div className="mt-16 grid gap-8 md:grid-cols-2">
+          <Skeleton className="h-40 w-full" />
+          <Skeleton className="h-40 w-full" />
+        </div>
+      </div>
+    </main>
+  );
+}
 
-type LocationDetailsProps = {
-  fixedSlug?: LocationSlug;
-};
-
-export default function LocationDetails({ fixedSlug }: LocationDetailsProps) {
-  const { slug } = useParams<{ slug: LocationSlug }>();
-  const location = fixedSlug ? locations[fixedSlug] : slug ? locations[slug] : undefined;
-
-  if (!location) {
-    return <NotFound />;
+  if (isError || !location) {
+    return <NotFound message="We couldn't find that location." />;
   }
 
   return (
+  <>
+    <a href="#main-content" className="skip-link">
+      Skip to main content
+    </a>
     <main
       className="min-h-screen bg-white text-black"
       style={{ fontFamily: '"Times New Roman", serif' }}
@@ -95,18 +56,11 @@ export default function LocationDetails({ fixedSlug }: LocationDetailsProps) {
       </header>
 
       <section className="relative isolate min-h-[560px] overflow-hidden bg-black text-white">
-        {"image" in location ? (
-          <img
-            src={location.image}
-            alt={`${location.name} campus location`}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        ) : (
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.22),transparent_30%),linear-gradient(135deg,#4b5563_0%,#111827_52%,#000000_100%)]"
-          />
-        )}
+        <img
+          src={location.image}
+          alt={`${location.name} campus location`}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-black/55" />
         <div className="relative mx-auto flex min-h-[560px] max-w-6xl items-end px-6 py-16 sm:px-10 lg:py-24">
           <div className="max-w-4xl">
@@ -127,18 +81,12 @@ export default function LocationDetails({ fixedSlug }: LocationDetailsProps) {
         <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <p className="max-w-3xl text-3xl leading-tight">{location.intro}</p>
-            <Link
-              to="/"
-              className="group mt-10 inline-flex items-center gap-4 text-xl font-semibold"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white">
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <span className="relative">
-                Navigate Here
-                <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-black transition-transform duration-300 group-hover:scale-x-100" />
-              </span>
-            </Link>
+            <div className="mt-10 flex items-start gap-4">
+              <DirectionsPanel category="location" slug={location.slug} />
+              <FavouriteButton
+                item={{ slug: location.slug, name: location.name, category: "location", path: `/location/${location.slug}` }}
+              />
+            </div>
           </div>
 
           <div className="border-t border-black pt-8">
@@ -214,21 +162,6 @@ export default function LocationDetails({ fixedSlug }: LocationDetailsProps) {
         </section>
       </section>
     </main>
+  </>
   );
-}
-
-export function LibraryPage() {
-  return <LocationDetails fixedSlug="library" />;
-}
-
-export function AuditoriumPage() {
-  return <LocationDetails fixedSlug="auditorium" />;
-}
-
-export function FreidaBrownPage() {
-  return <LocationDetails fixedSlug="freida-brown" />;
-}
-
-export function AthleticFacilitiesPage() {
-  return <LocationDetails fixedSlug="athletic-facilities" />;
 }

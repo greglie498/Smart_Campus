@@ -10,12 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import SchoolDetails from "./pages/SchoolDetails";
 import CafeteriaDetails from "./pages/CafeteriaDetails";
-import LocationDetails, {
-  AthleticFacilitiesPage,
-  AuditoriumPage,
-  FreidaBrownPage,
-  LibraryPage,
-} from "./pages/LocationDetails";
+import LocationDetails from "./pages/LocationDetails";
 
 const queryClient = new QueryClient();
 
@@ -29,10 +24,11 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/schools/:slug" element={<SchoolDetails />} />
           <Route path="/cafeterias/:slug" element={<CafeteriaDetails />} />
-          <Route path="/library" element={<LibraryPage />} />
-          <Route path="/auditorium" element={<AuditoriumPage />} />
-          <Route path="/freida-brown" element={<FreidaBrownPage />} />
-          <Route path="/athletic-facilities" element={<AthleticFacilitiesPage />} />
+          {/* Library, Auditorium, Freida Brown and Athletic Facilities
+              used to each have their own fixed route + wrapper component
+              duplicating LocationDetails. Now that LocationDetails fetches
+              by slug from the backend, one dynamic route covers all of
+              them — /locations/library, /locations/auditorium, etc. */}
           <Route path="/locations/:slug" element={<LocationDetails />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

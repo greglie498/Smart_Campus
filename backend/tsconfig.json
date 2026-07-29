@@ -13,7 +13,6 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "types":["node"],
-
     "baseUrl": ".",
     "paths": {
       "@shared/*": ["../shared/*"]
