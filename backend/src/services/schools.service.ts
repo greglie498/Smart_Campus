@@ -1,4 +1,4 @@
-import { School } from "@shared/types";
+import { School } from "@shared/types"; 
 import { schools } from "../data/schools.data";
 import { findBySlug } from "../data/lookup.util";
 

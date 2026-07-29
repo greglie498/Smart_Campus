@@ -1,66 +1,54 @@
-import { useState, useEffect, useCallback } from "react";
-import { SearchResultCategory } from "@shared/types"; 
+import { useCallback, useEffect, useState } from "react";
+import { SearchResultCategory } from "@shared/types";
 
 export interface FavouriteItem {
   slug: string;
   name: string;
   category: SearchResultCategory;
-  path: string; // Included path!
+  path: string;
 }
 
-const STORAGE_KEY = "campus_favourites";
+const STORAGE_KEY = "campus-favourites";
 
-export function useFavorites() {
-  const [favourites, setFavourites] = useState<FavouriteItem[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+function readFavourites(): FavouriteItem[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
 
-  // Load from localStorage on mount
+export function useFavourites() {
+  const [favourites, setFavourites] = useState<FavouriteItem[]>(() => readFavourites());
+
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setFavourites(JSON.parse(stored));
-      }
-    } catch (error) {
-      console.error("Error loading favourites from localStorage:", error);
-    } finally {
-      setIsLoaded(true);
+    function handleChange() {
+      setFavourites(readFavourites());
     }
+    window.addEventListener("favourites-changed", handleChange);
+    window.addEventListener("storage", handleChange);
+    return () => {
+      window.removeEventListener("favourites-changed", handleChange);
+      window.removeEventListener("storage", handleChange);
+    };
   }, []);
 
-  // Save changes to localStorage
-  const saveFavourites = (updated: FavouriteItem[]) => {
-    setFavourites(updated);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-    } catch (error) {
-      console.error("Error saving favourites to localStorage:", error);
-    }
-  };
-
-  // Check if an item is favourited by slug
   const isFavourite = useCallback(
     (slug: string) => favourites.some((item) => item.slug === slug),
-    [favourites]
+    [favourites],
   );
 
-  // Toggle favourite on/off
-  const toggleFavourite = useCallback(
-    (item: FavouriteItem) => {
-      const exists = favourites.some((fav) => fav.slug === item.slug);
-      const updated = exists
-        ? favourites.filter((fav) => fav.slug !== item.slug)
-        : [...favourites, item];
+  const toggleFavourite = useCallback((item: FavouriteItem) => {
+    const current = readFavourites();
+    const exists = current.some((existing) => existing.slug === item.slug);
+    const next = exists
+      ? current.filter((existing) => existing.slug !== item.slug)
+      : [...current, item];
 
-      saveFavourites(updated);
-    },
-    [favourites]
-  );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    window.dispatchEvent(new Event("favourites-changed"));
+  }, []);
 
-  return {
-    favourites,
-    isLoaded,
-    isFavourite,
-    toggleFavourite,
-  };
+  return { favourites, isFavourite, toggleFavourite };
 }

@@ -1,8 +1,8 @@
 import { Star } from "lucide-react";
-import { useFavorites, FavouriteItem } from "@/hooks/use-favourites";
+import { useFavourites, FavouriteItem } from "@/hooks/use-favourites";
 
 export default function FavouriteButton({ item }: { item: FavouriteItem }) {
-  const { isFavourite, toggleFavourite } = useFavorites();
+  const { isFavourite, toggleFavourite } = useFavourites();
   const active = isFavourite(item.slug);
 
   return (

@@ -11,10 +11,12 @@ import NotFound from "./pages/NotFound";
 import SchoolDetails from "./pages/SchoolDetails";
 import CafeteriaDetails from "./pages/CafeteriaDetails";
 import LocationDetails from "./pages/LocationDetails";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const queryClient = new QueryClient();
 
 const App = () => (
+  <ThemeProvider>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -36,6 +38,7 @@ const App = () => (
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
+  </ThemeProvider>
 );
 
 createRoot(document.getElementById("root")!).render(<App />);

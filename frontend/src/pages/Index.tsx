@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -19,8 +19,11 @@ import {
   useCampusSearch,
 } from "@/hooks/use-campus-data";
 import { toast } from "sonner";
-import { useFavorites } from "@/hooks/use-favourites";
+import { useFavourites } from "@/hooks/use-favourites";
+import { Skeleton } from "@/components/ui/skeleton";
+import ThemeToggle from "@/components/ThemeToggle";
 
+const CampusMap = lazy(() => import("@/components/CampusMap"));
 const campusImageUrl =
   "https://cdn.builder.io/api/v1/image/assets%2F49c1ce22bccc4c7cac44f44971fa35f8%2F5fe5f33bd7324150b37ef1c428613784?format=webp&width=800&height=1200";
 const logoImageUrl =
@@ -40,7 +43,7 @@ export default function Index() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const favouritesButtonRef = useRef<HTMLButtonElement>(null);
 
-  const { favourites, toggleFavourite } = useFavorites();
+  const { favourites, toggleFavourite } = useFavourites();
 
   const closeSearch = () => {
     setSearchOpen(false);
@@ -114,6 +117,27 @@ export default function Index() {
   const { data: searchResults = [], isFetching: isSearching } =
     useCampusSearch(debouncedQuery);
 
+  const mapPins = [
+    ...schools.map((school) => ({
+      slug: school.slug,
+      name: school.name,
+      category: "school" as const,
+      path: `/schools/${school.slug}`,
+    })),
+    ...cafeterias.map((cafeteria) => ({
+      slug: cafeteria.slug,
+      name: cafeteria.name,
+      category: "cafeteria" as const,
+      path: `/cafeterias/${cafeteria.slug}`,
+    })),
+    ...locations.map((location) => ({
+      slug: location.slug,
+      name: location.name,
+      category: "location" as const,
+      path: `/locations/${location.slug}`,
+    })),
+  ];
+
   // Menu-drawer groups built from live data and loading flags
   const menuGroups = [
     {
@@ -165,7 +189,12 @@ export default function Index() {
           <br />
           directions
         </h1>
-        <div className="absolute right-0 top-0 z-10 flex h-16 text-white">
+
+        {/* Updated Top Actions Bar */}
+        <div className="absolute right-0 top-0 z-10 flex h-16 items-center text-white">
+          <div className="mr-3">
+            <ThemeToggle variant="on-dark" />
+          </div>
           <button
             ref={searchButtonRef}
             type="button"
@@ -196,6 +225,7 @@ export default function Index() {
             <span>Menu</span>
           </button>
         </div>
+
         <p
           className="absolute right-0 top-[321px] z-10 w-[540px] max-w-[calc(100vw-2rem)] text-left text-[39px] font-normal leading-tight text-white sm:top-[337px] lg:top-[353px]"
           style={{ fontFamily: '"Times New Roman", serif' }}
@@ -605,15 +635,11 @@ export default function Index() {
           aria-labelledby="campus-map-heading"
           className="mt-20 grid grid-cols-1 items-center gap-12 pb-16 lg:grid-cols-2"
         >
-          {/* Map Wrapper with rounded corners & overflow clipping */}
+          {/* Map Wrapper */}
           <div className="w-full overflow-hidden rounded-2xl shadow-sm">
-            <iframe
-              title="USIU-Africa campus map"
-              src="https://maps.google.com/maps?q=-1.218056,36.879167&z=16&output=embed"
-              className="h-[360px] w-full border-0 sm:h-[420px]"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            <Suspense fallback={<Skeleton className="h-[360px] w-full sm:h-[420px]" />}>
+              <CampusMap pins={mapPins} />
+            </Suspense>
           </div>
 
           {/* Text Content Block */}
