@@ -2,6 +2,7 @@ import { Clock3, Mail, MapPin, Phone } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useCafeteria } from "@/hooks/use-campus-data";
 import { Skeleton } from "@/components/ui/skeleton";
+import SpeakButton from "@/components/SpeakButton";
 import NotFound from "./NotFound";
 import DirectionsPanel from "@/components/DirectionsPanel";
 import FavouriteButton from "@/components/FavouriteButton";
@@ -97,6 +98,7 @@ export default function CafeteriaDetails() {
                       path: `/cafeterias/${cafeteria.slug}`,
                     }}
                   />
+                   <SpeakButton text={`${cafeteria.name}. ${cafeteria.description}`} label="this page" />
                 </div>
               </div>
             </div>

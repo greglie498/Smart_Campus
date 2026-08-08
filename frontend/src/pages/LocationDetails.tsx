@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import NotFound from "./NotFound";
 import { useCampusLocation } from "@/hooks/use-campus-data";
 import { Skeleton } from "@/components/ui/skeleton";
+import SpeakButton from "@/components/SpeakButton";
 import DirectionsPanel from "@/components/DirectionsPanel";
 import FavouriteButton from "@/components/FavouriteButton";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -96,6 +97,7 @@ export default function LocationDetails() {
                     path: `/locations/${location.slug}`,
                   }}
                 />
+                <SpeakButton text={`${location.name}. ${location.intro}`} label="this page" />
               </div>
             </div>
 

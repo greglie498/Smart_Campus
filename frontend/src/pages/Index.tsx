@@ -648,25 +648,17 @@ export default function Index() {
               Campus Map
             </h3>
             <p className="mt-4 text-[1.375rem] font-normal leading-relaxed">
-              Use our official map to navigate USIU&apos;s campus and find auditoriums,
-              libraries, and other important buildings.
+              Tap any pin above, then choose <strong>Get Directions</strong> on
+              its page for an in-app route from the Main Gate, no need to
+              leave USIU&apos;s campus navigator.
             </p>
             <a
               href="https://www.google.com/maps/dir/?api=1&destination=-1.218056,36.879167"
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-6 flex w-fit items-center gap-4 text-left text-[1.375rem] font-semibold text-black dark:text-white"
+              className="mt-6 inline-block text-base text-black/60 underline decoration-black/30 underline-offset-4 hover:decoration-black dark:text-white/60 dark:decoration-white/30 dark:hover:decoration-white"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black">
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <span className="relative whitespace-nowrap">
-                Get directions in Google Maps
-                <span
-                  aria-hidden="true"
-                  className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-black transition-transform duration-300 group-hover:scale-x-100 dark:bg-white"
-                />
-              </span>
+              Prefer Google Maps instead? Open external directions
             </a>
           </div>
         </div>

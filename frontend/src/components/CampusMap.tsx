@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
+import { CAMPUS_CENTER, getApproxPosition, CATEGORY_COLOR, makePinIcon } from "../../../shared/campus-geo";
 import "leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
@@ -11,33 +11,6 @@ export interface MapPin {
   name: string;
   category: SearchResultCategory;
   path: string;
-}
-
-const CAMPUS_CENTER: [number, number] = [-1.218056, 36.879167];
-
-function getApproxPosition(slug: string): [number, number] {
-  let hash = 0;
-  for (let i = 0; i < slug.length; i++) {
-    hash = (hash * 31 + slug.charCodeAt(i)) >>> 0;
-  }
-  const angle = (hash % 360) * (Math.PI / 180);
-  const radius = 0.0009;
-  return [CAMPUS_CENTER[0] + radius * Math.sin(angle), CAMPUS_CENTER[1] + radius * Math.cos(angle)];
-}
-
-const CATEGORY_COLOR: Record<SearchResultCategory, string> = {
-  school: "#000000",
-  cafeteria: "#b45309",
-  location: "#1d4ed8",
-};
-
-function makePinIcon(color: string) {
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:16px;height:16px;border-radius:50%;background:${color};border:2px solid white;box-shadow:0 0 0 1px ${color}"></div>`,
-    iconSize: [16, 16],
-    iconAnchor: [8, 8],
-  });
 }
 
 export default function CampusMap({ pins }: { pins: MapPin[] }) {
@@ -73,7 +46,7 @@ export default function CampusMap({ pins }: { pins: MapPin[] }) {
         {pins.map((pin) => {
           const [lat, lng] = getApproxPosition(pin.slug);
           return (
-            <Marker key={pin.path} position={[lat, lng]} icon={icons[pin.category]}>
+            <Marker key={pin.path} position={[lat, lng]} icon={icons[pin.category] as any}>
               <Popup>
                 <p className="font-semibold">{pin.name}</p>
                 <p className="text-xs uppercase tracking-wide text-black/60">{pin.category}</p>
