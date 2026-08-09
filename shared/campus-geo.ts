@@ -1,3 +1,5 @@
+import { SearchResultCategory } from "@shared/types";
+
 export const CAMPUS_CENTER: [number, number] = [-1.21968, 36.87938];
 
 const KNOWN_COORDINATES: Partial<Record<string, [number, number]>> = {
@@ -30,6 +32,12 @@ export function getApproxPosition(slug: string): [number, number] {
   const radius = 0.0009;
   return [CAMPUS_CENTER[0] + radius * Math.sin(angle), CAMPUS_CENTER[1] + radius * Math.cos(angle)];
 }
+
+export const CATEGORY_COLOR: Record<SearchResultCategory, string> = {
+  school: "#000000",
+  cafeteria: "#b45309",
+  location: "#1d4ed8",
+};
 
 export function distanceMeters(a: [number, number], b: [number, number]): number {
   const R = 6371000;

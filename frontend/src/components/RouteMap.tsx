@@ -3,7 +3,8 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useTheme } from "next-themes";
-import { CAMPUS_CENTER, getApproxPosition, CATEGORY_COLOR, makePinIcon } from "../../../shared/campus-geo";
+import { CAMPUS_CENTER, getApproxPosition, CATEGORY_COLOR } from "@shared/campus-geo";
+import { makePinIcon } from "@/lib/campus-geo";
 import { SearchResultCategory } from "@shared/types";
 
 const START_ICON = L.divIcon({

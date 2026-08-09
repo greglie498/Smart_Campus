@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { CAMPUS_CENTER, getApproxPosition, CATEGORY_COLOR, makePinIcon } from "../../../shared/campus-geo";
+import { CAMPUS_CENTER, getApproxPosition, CATEGORY_COLOR } from "@shared/campus-geo";
+import { makePinIcon } from "@/lib/campus-geo";
 import "leaflet/dist/leaflet.css";
 import { Link } from "react-router-dom";
 import { useTheme } from "next-themes";
