@@ -167,7 +167,7 @@ export default function Index() {
   ];
 
   return (
-    <div className="w-full min-h-screen overflow-x-hidden bg-white text-black dark:bg-black dark:text-white">
+    <div className="w-full min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* Hero Section */}
       <main
         aria-label="Smart campus navigation system"
@@ -175,7 +175,7 @@ export default function Index() {
         role="img"
         style={{ backgroundImage: `url(${campusImageUrl})` }}
       >
-        <div aria-hidden="true" className="absolute inset-0 bg-black/55" />
+        <div aria-hidden="true" className="absolute inset-0 bg-black/45" />
         <img
           src={logoImageUrl}
           alt="USIU-Africa"
@@ -219,7 +219,7 @@ export default function Index() {
               setSearchOpen(false);
               setFavouritesOpen(false);
             }}
-            className="flex h-20 w-36 items-center justify-center gap-4 border-y border-r border-white/15 bg-black/85 px-6 text-base font-normal whitespace-nowrap"
+            className="flex h-20 w-36 items-center justify-center gap-4 border border-white/15 bg-black/65 px-6 text-base font-normal whitespace-nowrap backdrop-blur-md transition-colors hover:bg-black/80"
           >
             <Menu className="h-6 w-6 stroke-[2.5]" aria-hidden="true" />
             <span>Menu</span>
@@ -243,17 +243,17 @@ export default function Index() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="location-search-heading"
-            className="absolute inset-0 z-30 flex items-start justify-center bg-black/75 px-5 pt-24 sm:px-10 sm:pt-32"
+            className="absolute inset-0 z-30 flex items-start justify-center bg-black/70 px-5 pt-24 backdrop-blur-sm sm:px-10 sm:pt-32"
             onClick={closeSearch}
           >
             <div
-              className="w-full max-w-2xl bg-white p-6 text-black shadow-2xl sm:p-10"
+              className="w-full max-w-2xl rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-2xl sm:p-10"
               onClick={(event) => event.stopPropagation()}
               style={{ fontFamily: '"Times New Roman", serif' }}
             >
               <div className="flex items-start justify-between gap-6">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.2em] text-black/60">
+                  <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
                     Campus search
                   </p>
                   <h2
@@ -282,13 +282,13 @@ export default function Index() {
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder="Search for a location..."
-                className="mt-8 w-full border-b border-black bg-transparent px-0 py-3 text-2xl font-normal outline-none placeholder:text-black/45"
+                className="mt-8 w-full border-b border-border bg-transparent px-0 py-3 text-2xl font-normal text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
               />
               <div className="mt-6 max-h-[45vh] overflow-y-auto" aria-live="polite">
                 {searchQuery.trim() === "" ? null : isSearching ? (
                   <p className="py-4 text-xl">Searching…</p>
                 ) : searchResults.length > 0 ? (
-                  <ul className="divide-y divide-black/20">
+                  <ul className="divide-y divide-border">
                     {searchResults.map((result) => (
                       <li key={result.path}>
                         <Link
@@ -297,7 +297,7 @@ export default function Index() {
                           className="flex items-center justify-between gap-5 py-4 transition-opacity duration-300 hover:opacity-60"
                         >
                           <span className="text-xl">{result.name}</span>
-                          <span className="shrink-0 text-sm uppercase tracking-[0.15em] text-black/55">
+                          <span className="shrink-0 text-sm uppercase tracking-[0.15em] text-muted-foreground">
                             {result.category}
                           </span>
                         </Link>
@@ -324,13 +324,13 @@ export default function Index() {
             onClick={closeFavourites}
           >
             <div
-              className="w-full max-w-2xl bg-white p-6 text-black shadow-2xl dark:bg-neutral-950 dark:text-white sm:p-10"
+              className="w-full max-w-2xl rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-2xl sm:p-10"
               onClick={(event) => event.stopPropagation()}
               style={{ fontFamily: '"Times New Roman", serif' }}
             >
               <div className="flex items-start justify-between gap-6">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.2em] text-black/60 dark:text-white/60">
+                  <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
                     Saved on this device
                   </p>
                   <h2
@@ -356,7 +356,7 @@ export default function Index() {
                     Nothing saved yet. Open a school, cafeteria, or location and tap the star to save it here.
                   </p>
                 ) : (
-                  <ul className="divide-y divide-black/20 dark:divide-white/20">
+                  <ul className="divide-y divide-border">
                     {favourites.map((item) => (
                       <li key={item.path} className="flex items-center justify-between gap-5 py-4">
                         <Link
@@ -365,7 +365,7 @@ export default function Index() {
                           className="flex-1 text-xl transition-opacity duration-300 hover:opacity-60"
                         >
                           {item.name}
-                          <span className="ml-3 text-sm uppercase tracking-[0.15em] text-black/55 dark:text-white/55">
+                          <span className="ml-3 text-sm uppercase tracking-[0.15em] text-muted-foreground">
                             {item.category}
                           </span>
                         </Link>
@@ -373,7 +373,7 @@ export default function Index() {
                           type="button"
                           aria-label={`Remove ${item.name} from favourites`}
                           onClick={() => toggleFavourite(item)}
-                          className="shrink-0 text-sm underline decoration-black/40 underline-offset-4 hover:decoration-black dark:decoration-white/40 dark:hover:decoration-white"
+                          className="shrink-0 text-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground"
                         >
                           Remove
                         </button>
@@ -397,14 +397,14 @@ export default function Index() {
         <aside
           id="campus-navigation-menu"
           aria-label="Campus navigation menu"
-          className={`absolute right-0 top-0 z-40 h-full w-full max-w-[560px] overflow-y-auto bg-white px-6 pb-12 pt-8 text-black shadow-2xl transition-transform duration-500 ease-out sm:px-10 sm:pt-10 ${
+          className={`absolute right-0 top-0 z-40 h-full w-full max-w-[560px] overflow-y-auto border-l border-border bg-background px-6 pb-12 pt-8 text-foreground shadow-2xl transition-transform duration-500 ease-out sm:px-10 sm:pt-10 ${
             menuOpen ? "translate-x-0" : "pointer-events-none translate-x-full"
           }`}
           style={{ fontFamily: '"Times New Roman", serif' }}
         >
           <div className="flex items-start justify-between gap-6 border-b border-black pb-7">
             <div>
-              <p className="text-sm uppercase tracking-[0.2em] text-black/60">
+              <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
                 Campus navigation
               </p>
               <h2 className="mt-2 text-4xl font-normal sm:text-5xl">
@@ -428,15 +428,15 @@ export default function Index() {
               >
                 <h3
                   id={`${group.heading}-menu-heading`}
-                  className="text-sm uppercase tracking-[0.2em] text-black/60"
+                  className="text-sm uppercase tracking-[0.2em] text-muted-foreground"
                 >
                   {group.heading}
                 </h3>
-                <ul className="mt-3 divide-y divide-black/20">
+                <ul className="mt-3 divide-y divide-border">
                   {group.loading ? (
-                    <li className="py-4 text-lg text-black/60">Loading…</li>
+                    <li className="py-4 text-lg text-muted-foreground">Loading…</li>
                   ) : group.items.length === 0 ? (
-                    <li className="py-4 text-lg text-black/60">
+                    <li className="py-4 text-lg text-muted-foreground">
                       Nothing to show here yet.
                     </li>
                   ) : (
@@ -466,7 +466,7 @@ export default function Index() {
       {/* Primary Navigation */}
       <nav
         aria-label="Primary navigation"
-        className="flex min-h-24 w-full items-center justify-center overflow-x-auto bg-white px-6 dark:bg-neutral-900"
+        className="flex min-h-24 w-full items-center justify-center overflow-x-auto border-b border-border bg-background px-6"
         style={{ fontFamily: '"Times New Roman", serif' }}
       >
         <ul className="flex min-w-max items-center justify-center gap-8 sm:gap-12 lg:gap-16">
@@ -491,12 +491,12 @@ export default function Index() {
                 ref={item.ref}
                 type="button"
                 onClick={item.onClick}
-                className="group relative whitespace-nowrap px-1 py-2 text-lg font-normal text-black dark:text-white sm:text-xl"
+                className="group relative whitespace-nowrap px-1 py-2 text-lg font-normal text-foreground transition-colors hover:text-primary sm:text-xl"
               >
                 {item.label}
                 <span
                   aria-hidden="true"
-                  className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-black transition-transform duration-300 group-hover:scale-x-100 dark:bg-white"
+                  className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100"
                 />
               </button>
             </li>
@@ -507,20 +507,19 @@ export default function Index() {
       {/* Building Directory Section */}
       <section
         aria-labelledby="building-addresses-heading"
-        className="bg-white px-6 py-16 text-left dark:bg-black"
-        style={{ fontFamily: '"Times New Roman", serif' }}
+        className="bg-background px-6 py-16 text-left"
       >
         <h2
           id="building-addresses-heading"
-          className="text-[60px] font-normal leading-tight text-black dark:text-white"
+          className="text-5xl font-semibold leading-tight tracking-tight text-foreground sm:text-6xl"
         >
           USIU building
           <br />
           addresses
         </h2>
-        <div aria-hidden="true" className="mt-8 h-px w-full bg-black dark:bg-white" />
+        <div aria-hidden="true" className="mt-8 h-px w-full bg-border" />
         <ul aria-label="Building directory" className="text-left text-black dark:text-white">
-          <li className="group border-b border-black py-6 text-[40px] font-normal leading-relaxed dark:border-white">
+          <li className="group border-b border-border py-6 text-3xl font-medium leading-relaxed sm:text-4xl">
             <div className="flex items-center justify-between">
               <span>Schools</span>
               <button
@@ -561,7 +560,7 @@ export default function Index() {
               )}
             </ul>
           </li>
-          <li className="group border-b border-black py-6 text-[40px] font-normal leading-relaxed dark:border-white">
+          <li className="group border-b border-border py-6 text-3xl font-medium leading-relaxed sm:text-4xl">
             <div className="flex items-center justify-between">
               <span>Cafeterias</span>
               <button
@@ -572,7 +571,7 @@ export default function Index() {
                 aria-expanded={cafeteriasOpen}
                 aria-controls="cafeterias-dropdown"
                 onClick={() => setCafeteriasOpen((open) => !open)}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black bg-white text-black transition-colors duration-300 group-hover:bg-black group-hover:text-white dark:border-white dark:bg-black dark:text-white dark:group-hover:bg-white dark:group-hover:text-black"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors duration-300 hover:bg-primary hover:text-primary-foreground"
               >
                 <ChevronDown
                   className={`h-5 w-5 transition-transform duration-300 ${
@@ -614,7 +613,7 @@ export default function Index() {
             locations.map((location) => (
               <li
                 key={location.slug}
-                className="group border-b border-black py-6 text-[2.5rem] font-normal leading-relaxed dark:border-white"
+                className="group border-b border-border py-6 text-3xl font-normal leading-relaxed sm:text-4xl"
               >
                 <div className="flex items-center justify-between">
                   <Link
@@ -633,33 +632,36 @@ export default function Index() {
         <div
           id="campus-map"
           aria-labelledby="campus-map-heading"
-          className="mt-20 grid grid-cols-1 items-center gap-12 pb-16 lg:grid-cols-2"
+          className="mt-20 grid grid-cols-1 items-stretch gap-10 pb-16 lg:grid-cols-2"
         >
           {/* Map Wrapper */}
-          <div className="w-full overflow-hidden rounded-2xl shadow-sm">
+          <div className="w-full">
             <Suspense fallback={<Skeleton className="h-[360px] w-full sm:h-[420px]" />}>
               <CampusMap pins={mapPins} />
             </Suspense>
           </div>
 
           {/* Text Content Block */}
-          <div className="flex flex-col text-left text-black dark:text-white">
-            <h3 id="campus-map-heading" className="text-[2.25rem] font-[550] leading-tight">
+          <div className="flex min-h-[360px] flex-col justify-center rounded-2xl border border-slate-700/70 bg-slate-900/70 px-8 py-10 text-left text-black dark:text-white sm:px-10 sm:py-12">
+            <h3
+              id="campus-map-heading"
+              className="text-[2.25rem] font-[550] leading-tight text-slate-100"
+            >
               Campus Map
             </h3>
-            <p className="mt-4 text-[1.375rem] font-normal leading-relaxed">
+            <p className="mt-4 text-[1.375rem] font-normal leading-relaxed text-slate-300">
               Tap any pin above, then choose <strong>Get Directions</strong> on
               its page for an in-app route from the Main Gate, no need to
               leave USIU&apos;s campus navigator.
             </p>
-            <a
-              href="https://www.google.com/maps/dir/?api=1&destination=-1.218056,36.879167"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-block text-base text-black/60 underline decoration-black/30 underline-offset-4 hover:decoration-black dark:text-white/60 dark:decoration-white/30 dark:hover:decoration-white"
-            >
-              Prefer Google Maps instead? Open external directions
-            </a>
+           <a
+            href="https://www.google.com/maps/dir/?api=1&destination=-1.218056,36.879167"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-block text-base text-slate-400 underline decoration-slate-600 underline-offset-4 transition-colors hover:text-slate-200 hover:decoration-slate-400"
+          >
+            Prefer Google Maps instead? Open external directions
+          </a>
           </div>
         </div>
       </section>
@@ -667,25 +669,25 @@ export default function Index() {
       {/* Footer */}
       <footer
         aria-labelledby="security-brand-heading"
-        className="mt-24 bg-black px-6 pb-12 pt-12 text-center text-white"
+        className="mt-24 border-t border-border bg-card px-6 pb-12 pt-12 text-center text-card-foreground"
         style={{ fontFamily: '"Times New Roman", serif' }}
       >
         <div className="grid grid-cols-1 gap-10 pt-12 lg:grid-cols-3">
           <div className="mx-auto max-w-3xl">
             <h2
               id="security-brand-heading"
-              className="text-[24px] font-semibold leading-tight text-white"
+              className="text-[24px] font-semibold leading-tight text-card-foreground"
             >
               Security &amp; Brand
             </h2>
-            <ul className="mt-4 space-y-2 text-[18px] font-normal leading-relaxed text-white">
+            <ul className="mt-4 space-y-2 text-[18px] font-normal leading-relaxed text-muted-foreground">
               {[
                 "Report Copyright Infringement",
                 "Report Security Issue",
                 "Trademark Notice",
               ].map((item) => (
                 <li key={item}>
-                  <button type="button" className="text-center text-white">
+                  <button type="button" className="text-center text-card-foreground">
                     {item}
                   </button>
                 </li>
@@ -693,17 +695,17 @@ export default function Index() {
             </ul>
           </div>
           <div className="text-center lg:justify-self-center">
-            <h2 className="text-[24px] font-semibold leading-tight text-white">
+            <h2 className="text-[24px] font-semibold leading-tight text-card-foreground">
               Website
             </h2>
-            <ul className="mt-4 space-y-2 text-[18px] font-normal leading-relaxed text-white">
+            <ul className="mt-4 space-y-2 text-[18px] font-normal leading-relaxed text-muted-foreground">
               {[
                 "Accessibility",
                 "Digital Accessibility",
                 "Privacy Statement",
               ].map((item) => (
                 <li key={item}>
-                  <button type="button" className="text-center text-white">
+                  <button type="button" className="text-center text-muted-foreground transition-colors hover:text-foreground">
                     {item}
                   </button>
                 </li>
@@ -715,14 +717,14 @@ export default function Index() {
               className="mx-auto mt-28 h-auto w-[180px]"
             />
           </div>
-          <div className="text-center text-white">
-            <h2 className="text-[24px] font-semibold leading-tight text-white">
+          <div className="text-center text-card-foregrounde">
+            <h2 className="text-[24px] font-semibold leading-tight text-card-foreground">
               Get In Touch
             </h2>
-            <ul className="mt-4 space-y-2 text-[18px] font-normal leading-relaxed text-white">
+            <ul className="mt-4 space-y-2 text-[18px] font-normal leading-relaxed text-muted-foreground">
               {["Contact USIU", "Maps and Directions", "Jobs"].map((item) => (
                 <li key={item}>
-                  <button type="button" className="text-center text-white">
+                  <button type="button" className="text-center text-card-foreground">
                     {item}
                   </button>
                 </li>
@@ -731,13 +733,13 @@ export default function Index() {
           </div>
         </div>
         <div className="mt-32 flex flex-col gap-6 text-left sm:flex-row sm:items-center sm:justify-between">
-          <p className="pb-2 text-[14px] font-normal leading-relaxed text-white sm:text-[16px]">
+          <p className="pb-2 text-[14px] font-normal leading-relaxed text-card-foreground sm:text-[16px]">
             Copyright © 2026 The President and Fellows of United
             <br />
             States International University - Africa
           </p>
           <div
-            className="flex items-center gap-6 text-white sm:-translate-x-6"
+            className="flex items-center gap-6 text-muted-foreground sm:-translate-x-6"
             aria-label="Social media links"
           >
             <button
