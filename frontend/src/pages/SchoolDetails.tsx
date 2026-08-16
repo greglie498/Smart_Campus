@@ -151,18 +151,24 @@ export default function SchoolDetails() {
               Contact information
             </h2>
             <div className="mt-8 grid gap-6 text-xl leading-relaxed sm:grid-cols-3">
-              <p className="flex items-start gap-3">
+              <a 
+                href="tel:+254 730 116 290"
+                className="flex items-start gap-3">
                 <MapPin className="mt-1 h-6 w-6 shrink-0" aria-hidden="true" />
                 <span>USIU-Africa campus reception</span>
-              </p>
-              <p className="flex items-start gap-3">
+              </a>
+              <a 
+                href="tel:+254 730 116 247 "
+                className="flex items-start gap-3">
                 <Phone className="mt-1 h-6 w-6 shrink-0" aria-hidden="true" />
-                <span>Campus information desk</span>
-              </p>
-              <p className="flex items-start gap-3">
+                <span>Campus admissions desk</span>
+              </a>
+              <a 
+                href="tel: +254 730 116 300"
+                className="flex items-start gap-3">
                 <Mail className="mt-1 h-6 w-6 shrink-0" aria-hidden="true" />
                 <span>School enquiries</span>
-              </p>
+              </a>
             </div>
           </section>
         </section>

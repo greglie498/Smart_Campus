@@ -711,6 +711,7 @@ export default function Index() {
                 </li>
               ))}
             </ul>
+        
             <img
               src={footerLogoImageUrl}
               alt="USIU-Africa logo"
@@ -752,7 +753,7 @@ export default function Index() {
               <Instagram className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
-              href="tiktok.com/@usiuafrica"
+              href="https://www.tiktok.com/@usiuafrica"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="TikTok"
@@ -761,7 +762,7 @@ export default function Index() {
               <Music2 className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
-              href="linkedin.com/edu/school?id=14432"
+              href="https://www.linkedin.com/school/united-states-international-university-africa/?originalSubdomain=ke"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -770,7 +771,7 @@ export default function Index() {
               <Linkedin className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
-              href="facebook.com/USIUAfrica"
+              href="https://www.facebook.com/USIUAFRICA/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -779,7 +780,7 @@ export default function Index() {
               <Facebook className="h-5 w-5" aria-hidden="true" />
             </a>
             <a
-              href="www.youtube.com/@USIUAfricaOfficial"
+              href="https://www.youtube.com/@USIUAfricaOfficial"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="YouTube"
