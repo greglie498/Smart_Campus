@@ -742,41 +742,51 @@ export default function Index() {
             className="flex items-center gap-6 text-muted-foreground sm:-translate-x-6"
             aria-label="Social media links"
           >
-            <button
-              type="button"
+            <a
+              href="https://www.instagram.com/usiuafrica/"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Instagram"
               className="transition-opacity duration-300 hover:opacity-60"
             >
               <Instagram className="h-5 w-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
+            </a>
+            <a
+              href="tiktok.com/@usiuafrica"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="TikTok"
               className="transition-opacity duration-300 hover:opacity-60"
             >
               <Music2 className="h-5 w-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
+            </a>
+            <a
+              href="linkedin.com/edu/school?id=14432"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="LinkedIn"
               className="transition-opacity duration-300 hover:opacity-60"
             >
               <Linkedin className="h-5 w-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
+            </a>
+            <a
+              href="facebook.com/USIUAfrica"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Facebook"
               className="transition-opacity duration-300 hover:opacity-60"
             >
               <Facebook className="h-5 w-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
+            </a>
+            <a
+              href="www.youtube.com/@USIUAfricaOfficial"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="YouTube"
               className="transition-opacity duration-300 hover:opacity-60"
             >
               <Youtube className="h-5 w-5" aria-hidden="true" />
-            </button>
+            </a>
           </div>
         </div>
       </footer>
