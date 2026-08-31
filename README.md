@@ -48,6 +48,65 @@ smart-campus-navigation/
 └── types.ts # School, Cafeteria, Location, SearchResult, Directions
 
 
+## System overview
+
+The Smart Campus Navigation System is organized into three main layers:
+
+* **Frontend** — A React and Vite application that provides the user interface, campus map, search, location details, favourites, and navigation interface.
+* **Backend** — An Express and TypeScript API responsible for providing campus data, handling searches, returning location details, and generating the current stub directions.
+* **Shared** — TypeScript types shared between the frontend and backend to keep data structures consistent across the application.
+
+The general request flow is:
+
+```text
+User
+  ↓
+React Frontend
+  ↓
+API requests
+  ↓
+Express Backend
+  ↓
+Campus Data / Services
+  ↓
+JSON response
+  ↓
+React Frontend
+```
+
+This separation allows the frontend and backend to be developed and tested independently while keeping their shared data types consistent.
+
+## How to use the application
+
+1. Open the application in your browser.
+2. Browse the available schools, cafeterias, and other campus locations.
+3. Use the search function to quickly find a location.
+4. Open a location to view its details.
+5. Select **Get Directions** to view the available walking instructions.
+6. Use the star button to add a location to **Favourites**.
+7. Use the interactive map to explore campus locations and their map pins.
+8. Toggle between light and dark mode using the theme control.
+
+## Future improvements
+
+The current prototype provides the foundation for a more complete campus navigation system. Potential future improvements include:
+
+* Real GPS-based campus positioning
+* Accurate building and pathway coordinates
+* Real turn-by-turn routing
+* Live user location tracking
+* User accounts and cloud-synchronised favourites
+* Accessibility-focused navigation routes
+* Additional campus facilities and points of interest
+* Mobile application support
+* Administration tools for updating campus locations and information
+
+## Contributors
+
+This project was developed collaboratively as a Software Engineering / HCI project for USIU-Africa.
+
+Contributions include frontend development, backend/API development, campus data, user interface design, navigation functionality, testing, and documentation.
+
 ## Getting started
 
 You need Node.js 18+ installed. Backend and frontend are separate npm
